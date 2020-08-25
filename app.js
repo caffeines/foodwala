@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const response = require('./middleware/response');
 const bindRoutes = require('./routes');
-const knexhelper = require('./lib/knexHelper');
+const knexhelper = require('./knex/knexhelper');
 const databaseConfig = require('./config/database');
 
 const app = express();
@@ -24,4 +24,5 @@ const bindDatabase = async () => {
 bindDatabase()
   .then(() => console.log('connected to database'))
   .catch((err) => console.log(`database connection error: ${err.message}`));
+
 module.exports = app;

@@ -1,7 +1,7 @@
 let knex = null;
 let configured = false;
 
-const configure = function f(config) {
+const configure = (config) => {
   // eslint-disable-next-line
   knex = require('knex')({
     client: 'pg',
@@ -9,7 +9,6 @@ const configure = function f(config) {
     pool: config.pool,
   });
   configured = true;
-  return this;
 };
 
 exports.configure = configure;
