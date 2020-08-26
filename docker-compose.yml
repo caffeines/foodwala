@@ -19,5 +19,14 @@ services:
     restart: always
     ports:
       - 8081:8080
+  redis:
+    image: redis
+    container_name: manushai-redis
+    volumes:
+      - redis_data:/data
+    command: redis-server --requirepass password
+    ports:
+      - '6379:6379'
 volumes:
   pgvol:
+  redis_data:

@@ -1,5 +1,5 @@
 const errorCodes = require('../constant/errorCode');
-const userDao = require('../dao/user');
+const UserImpl = require('../dao/userImpl');
 const knex = require('../lib/knexhelper').getKnexInstance();
 const serverConfig = require('../config/server');
 
@@ -46,7 +46,7 @@ const auth = {
         username, password, name, address,
       } = req.body;
 
-      const User = new userDao(knex);
+      const User = new UserImpl(knex);
 
       const user = await User.findUserByUsername(username);
       if (user) {
@@ -129,7 +129,7 @@ const auth = {
   verifyEmail: async (req, res) => {
     try {
       const { username, token } = req.query;
-      const User = new userDao(knex);
+      const User = new UserImpl(knex);
       const user = await User.findUserByUsername(username);
       if (!user) {
         res.notFound({
@@ -159,6 +159,55 @@ const auth = {
       console.log(err);
       res.serverError({
         title: 'Email verification failed',
+        code: errorCodes.SERVER_ERROR,
+      });
+    }
+  },
+  /**
+   * @api {post} /auth/login Login
+   * @apiName Login
+   * @apiGroup auth
+   * @apiParam {String} useraname Valid username of the User.
+   * @apiParam {String} password  Password of the User.
+   * @apiSuccessExample {json} Success
+   * {
+   *    "title": "Login successful",
+   *    "status": "200",
+   * }
+   * @apiSuccessExample {json} Not found
+   * {
+   *    "title": "User not found",
+   *    "status": "404",
+   *    "code": 404001
+   * }
+   * @apiSuccessExample {json} Bad request
+   * {
+   *    "title": "Invalid query parameter",
+   *     "status": "400",
+   *     "errors": [
+   *      {
+   *       "value": "@sadat.talksgmail.com",
+   *       "msg": "Must be a valid email",
+   *       "param": "username",
+   *       "location": "query"
+   *      }
+   *    ],
+   *    "code": 400002
+   * }
+   * @apiSuccessExample {json} Bad request [not verified]
+   * {
+   *    "title": "Email already verified",
+   *    "status": "200",
+   * }
+   *
+   */
+  login: async (req, res) => {
+    try {
+      res.ok({});
+    } catch (err) {
+      console.log(err);
+      res.serverError({
+        title: 'Login failed',
         code: errorCodes.SERVER_ERROR,
       });
     }

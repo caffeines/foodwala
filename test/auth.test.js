@@ -3,7 +3,7 @@
 const request = require('supertest');
 const app = require('../app');
 const knex = require('../lib/knexhelper').getKnexInstance();
-const userDao = require('../dao/user');
+const UserImpl = require('../dao/userImpl');
 const errorCode = require('../constant/errorCode');
 
 const register = async (data) => {
@@ -22,7 +22,7 @@ const verifyEmail = async ({ username, token }) => {
 }
 
 describe('POST /api/auth/enter',() => {
-  const User = new userDao(knex);
+  const User = new UserImpl(knex);
   it('should return status 400 with invalid email', async () => {
     await User.removeAll();
     const res = await register({
@@ -113,7 +113,7 @@ describe('GET /api/auth/verify-email',() => {
     expect(res.body.code).toBe(errorCode.VERIFICATION_CODE_NOT_MATCH);
   });
   it('should return status 401 for invalid verification code', async()=> {
-    const User = new userDao(knex);
+    const User = new UserImpl(knex);
     const user = {
       username: 's@gmail.com',
       name: "Sadat",
