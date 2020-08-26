@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const response = require('./middleware/response');
 const knexhelper = require('./lib/knexhelper');
 const databaseConfig = require('./config/database');
+const serverConfig = require('./config/server');
 
 const app = express();
 knexhelper.configure(databaseConfig);
@@ -16,7 +17,7 @@ const bindDatabase = async () => {
 };
 bindDatabase()
   .then(() => {
-    console.log('connected to database');
+    if (serverConfig.nodeEnv !== 'test') { console.log('connected to database'); }
   })
   .catch((err) => console.log(`database connection error: ${err.message}`));
 

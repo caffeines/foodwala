@@ -36,6 +36,10 @@ class User {
       return Promise.reject(err);
     }
   }
+
+  async removeAll() {
+    await this.knex('User').del();
+  }
 }
 
 module.exports = User;
