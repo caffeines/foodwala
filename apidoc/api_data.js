@@ -61,5 +61,54 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "controllers/auth.js",
     "groupTitle": "auth"
+  },
+  {
+    "type": "get",
+    "url": "/auth/verify-email?username=sadat.talks@gmail.com&token=aszdian4a1s",
+    "title": "Email verify",
+    "name": "Verify_Email",
+    "group": "auth",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "useraname",
+            "description": "<p>Valid username of the User.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>verification token.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n   \"title\": \"Email verification successful\",\n   \"status\": \"200\",\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not found-Response:",
+          "content": "{\n   \"title\": \"User not found\",\n   \"status\": \"404\",\n   \"code\": 404001\n}",
+          "type": "json"
+        },
+        {
+          "title": "Bad request-Response:",
+          "content": "{\n   \"title\": \"Invalid request data\",\n    \"status\": \"400\",\n    \"errors\": [\n     {\n      \"value\": \"@sadat.talksgmail.com\",\n      \"msg\": \"Must be a valid email\",\n      \"param\": \"username\",\n      \"location\": \"body\"\n     }\n   ],\n   \"code\": 400001\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "controllers/auth.js",
+    "groupTitle": "auth"
   }
 ] });

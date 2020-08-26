@@ -11,4 +11,11 @@ router.post(
   auth.register,
 );
 
+router.get(
+  '/api/auth/verify-email',
+  authValidator.emailVerifyVC,
+  authValidator.validateEmailVarification,
+  auth.verifyEmail,
+);
+
 exports.authRouter = router;

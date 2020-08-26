@@ -41,6 +41,7 @@
     "morgan": "^1.10.0",
     "pg": "^8.3.2",
     "redis": "^3.0.2",
+    "short-uuid": "^3.1.1",
     "uuid": "^8.3.0"
   },
   "apidoc": {
@@ -57,6 +58,7 @@
   "devDependencies": {
     "eslint": "^7.7.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0"
+    "eslint-plugin-import": "^2.22.0",
+    "jest": "^26.4.2"
   }
 }

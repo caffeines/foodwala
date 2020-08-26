@@ -1,4 +1,4 @@
-const { check, validationResult } = require('express-validator');
+const { check, query, validationResult } = require('express-validator');
 const errorCode = require('../../constant/errorCode');
 
 const registerVC = [
@@ -21,20 +21,41 @@ const registerVC = [
     .withMessage('Must be at least 6 chars long'),
 ];
 
-const validateRegister = (req, res, next) => {
+const validate = (req, res, next, title, code) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.badRequest({
-      title: 'Invalid request data',
+      title,
       error: errors.array(),
-      code: errorCode.USER_CREATE_INVALID_DATA,
+      code,
     });
     return;
   }
   next();
 };
 
+const validateRegister = (req, res, next) => {
+  validate(req, res, next, 'Invalid request data', errorCode.USER_CREATE_INVALID_DATA);
+};
+
+const emailVerifyVC = [
+  query('username')
+    .normalizeEmail()
+    .isEmail()
+    .withMessage('Must be a valid email'),
+  query('token')
+    .isString()
+    .isLength({ min: 8 })
+    .withMessage('Must be valid token'),
+];
+
+const validateEmailVarification = (req, res, next) => {
+  validate(req, res, next, 'Invalid query parameter', errorCode.EMAIL_VERIFY_INVALID_DATA);
+};
+
 module.exports = {
   validateRegister,
+  validateEmailVarification,
+  emailVerifyVC,
   registerVC,
 };

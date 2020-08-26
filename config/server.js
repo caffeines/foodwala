@@ -5,7 +5,7 @@ const vars = formatEnv([
   { name: 'SERVER_NAME', defaultValue: 'manushai' },
   { name: 'SERVER_HOST', defaultValue: 'localhost' },
   { name: 'SERVER_PORT', type: 'number', defaultValue: '4123' },
-  { name: 'SERVER_APP_LINK', defaultValue: '' },
+  { name: 'SERVER_LINK', defaultValue: 'http://localhost:4123' },
 ]);
 
 module.exports = {
@@ -13,5 +13,5 @@ module.exports = {
   name: vars.SERVER_NAME,
   host: vars.SERVER_HOST,
   port: vars.SERVER_PORT,
-  appLink: vars.SERVER_APP_LINK,
+  serverLink: vars.SERVER_LINK,
 };
