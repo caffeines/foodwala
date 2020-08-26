@@ -50,6 +50,11 @@
           "title": "Conflict-Response:",
           "content": "{\n   \"title\": \"User already exists\",\n   \"status\": \"409\",\n   \"code\": 409001\n}",
           "type": "json"
+        },
+        {
+          "title": "Bad request-Response:",
+          "content": "{\n   \"title\": \"Invalid request data\",\n    \"status\": \"400\",\n    \"errors\": [\n     {\n      \"value\": \"@sadat.talksgmail.com\",\n      \"msg\": \"Must be a valid email\",\n      \"param\": \"username\",\n      \"location\": \"body\"\n     }\n   ],\n   \"code\": 400001\n}",
+          "type": "json"
         }
       ]
     },

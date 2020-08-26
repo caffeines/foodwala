@@ -21,6 +21,20 @@ const auth = {
    *    "status": "409",
    *    "code": 409001
    * }
+   * @apiSuccessExample {json} Bad request-Response:
+   * {
+   *    "title": "Invalid request data",
+   *     "status": "400",
+   *     "errors": [
+   *      {
+   *       "value": "@sadat.talksgmail.com",
+   *       "msg": "Must be a valid email",
+   *       "param": "username",
+   *       "location": "body"
+   *      }
+   *    ],
+   *    "code": 400001
+   * }
    *
    */
   register: async (req, res) => {
@@ -28,9 +42,8 @@ const auth = {
       username, password, name, address,
     } = req.body;
     console.log(username, password, name, address);
-    res.conflict({
+    res.ok({
       title: 'User registration successful',
-      code: errorCodes.USER_ALREADY_EXITS,
       data: {
         username, password, name, address,
       },
