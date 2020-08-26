@@ -7,6 +7,7 @@ module.exports = (req, res, next) => {
     forbidden: '403',
     notFound: '404',
     serverError: '500',
+    conflict: '409',
   };
   Object.keys(responseTypes).forEach((response) => {
     res[response] = (data, opt) => {

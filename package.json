@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate-dev": ". ./loadEnv ./dev.env && knex migrate:latest",
     "seed-dev": ". ./loadEnv ./dev.env && knex seed:run",
-    "seed-make": ". ./loadEnv ./dev.env && knex seed:make 01-users"
+    "seed-make": ". ./loadEnv ./dev.env && knex seed:make 01-users",
+    "api-doc": "apidoc -i controllers/ -o apidoc/"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,14 @@
     "pg": "^8.3.2",
     "redis": "^3.0.2",
     "uuid": "^8.3.0"
+  },
+  "apidoc": {
+    "name": "Manush AI",
+    "version": "0.1.0",
+    "description": "Manush AI backend task REST API documentation"
+  },
+  "nodemonConfig": {
+    "ignore": ["test/*", "apidoc/*"]
   },
   "devDependencies": {
     "eslint": "^7.7.0",

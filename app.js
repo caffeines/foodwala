@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const response = require('./middleware/response');
 const bindRoutes = require('./routes');
-const knexhelper = require('./knex/knexhelper');
+const knexhelper = require('./lib/knexhelper');
 const databaseConfig = require('./config/database');
 
 const app = express();
