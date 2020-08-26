@@ -12,19 +12,19 @@ const auth = {
    * @apiParam {String} password     Password of the User.
    * @apiParam {String} address      Address of the User.
    * @apiParam {string} username     Valid email of the User.
-   * @apiSuccessExample {json} Success-Response:
+   * @apiSuccessExample {json} Success
    * {
    *    "title": "User registration successful",
    *    "status": "200",
    * }
    *
-   * @apiSuccessExample {json} Conflict-Response:
+   * @apiSuccessExample {json} Conflict
    * {
    *    "title": "User already exists",
    *    "status": "409",
    *    "code": 409001
    * }
-   * @apiSuccessExample {json} Bad request-Response:
+   * @apiSuccessExample {json} Bad request
    * {
    *    "title": "Invalid request data",
    *     "status": "400",
@@ -53,7 +53,7 @@ const auth = {
         if (!user.isVerified) {
           // TODO: Send email
           const url = `${serverConfig.serverLink}/api/auth/verify-email?username=${username}&token=${user.verificationCode}`;
-          console.log(url);
+          // console.log(url);
           res.badRequest({
             title: 'Verify your email',
             code: errorCodes.USER_EMAIL_NOT_VERIFIED,
@@ -72,7 +72,7 @@ const auth = {
         username, password, name, address,
       });
       const url = `${serverConfig.serverLink}/api/auth/verify-email?username=${username}&token=${createdUser.verificationCode}`;
-      console.log(url);
+      // console.log(url);
 
       // TODO: Send email
       res.ok({
@@ -93,36 +93,65 @@ const auth = {
    * @apiGroup auth
    * @apiParam {String} useraname Valid username of the User.
    * @apiParam {String} token     verification token.
-   * @apiSuccessExample {json} Success-Response:
+   * @apiSuccessExample {json} Success
    * {
    *    "title": "Email verification successful",
    *    "status": "200",
    * }
+   * @apiSuccessExample {json} Success [if already verified]
+   * {
+   *    "title": "Email already verified",
+   *    "status": "200",
+   * }
    *
-   * @apiSuccessExample {json} Not found-Response:
+   * @apiSuccessExample {json} Not found
    * {
    *    "title": "User not found",
    *    "status": "404",
    *    "code": 404001
    * }
-   * @apiSuccessExample {json} Bad request-Response:
+   * @apiSuccessExample {json} Bad request
    * {
-   *    "title": "Invalid request data",
+   *    "title": "Invalid query parameter",
    *     "status": "400",
    *     "errors": [
    *      {
    *       "value": "@sadat.talksgmail.com",
    *       "msg": "Must be a valid email",
    *       "param": "username",
-   *       "location": "body"
+   *       "location": "query"
    *      }
    *    ],
-   *    "code": 400001
+   *    "code": 400002
    * }
    *
    */
   verifyEmail: async (req, res) => {
     try {
+      const { username, token } = req.query;
+      const User = new userDao(knex);
+      const user = await User.findUserByUsername(username);
+      if (!user) {
+        res.notFound({
+          title: 'User not found',
+          code: errorCodes.USER_NOT_FOUND,
+        });
+        return;
+      }
+      if (user.isVerified) {
+        res.ok({
+          title: 'Email already verified',
+        });
+        return;
+      }
+      if (user.verificationCode !== token) {
+        res.unauthorized({
+          title: 'Verification code not match',
+          code: errorCodes.VERIFICATION_CODE_NOT_MATCH,
+        });
+        return;
+      }
+      await User.updateUser(username, { ...user, isVerified: true });
       res.ok({
         title: 'Email verification successful',
       });

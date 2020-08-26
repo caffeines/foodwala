@@ -42,17 +42,17 @@
     "success": {
       "examples": [
         {
-          "title": "Success-Response:",
+          "title": "Success",
           "content": "{\n   \"title\": \"User registration successful\",\n   \"status\": \"200\",\n}",
           "type": "json"
         },
         {
-          "title": "Conflict-Response:",
+          "title": "Conflict",
           "content": "{\n   \"title\": \"User already exists\",\n   \"status\": \"409\",\n   \"code\": 409001\n}",
           "type": "json"
         },
         {
-          "title": "Bad request-Response:",
+          "title": "Bad request",
           "content": "{\n   \"title\": \"Invalid request data\",\n    \"status\": \"400\",\n    \"errors\": [\n     {\n      \"value\": \"@sadat.talksgmail.com\",\n      \"msg\": \"Must be a valid email\",\n      \"param\": \"username\",\n      \"location\": \"body\"\n     }\n   ],\n   \"code\": 400001\n}",
           "type": "json"
         }
@@ -91,18 +91,23 @@
     "success": {
       "examples": [
         {
-          "title": "Success-Response:",
+          "title": "Success",
           "content": "{\n   \"title\": \"Email verification successful\",\n   \"status\": \"200\",\n}",
           "type": "json"
         },
         {
-          "title": "Not found-Response:",
+          "title": "Success [if already verified]",
+          "content": "{\n   \"title\": \"Email already verified\",\n   \"status\": \"200\",\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not found",
           "content": "{\n   \"title\": \"User not found\",\n   \"status\": \"404\",\n   \"code\": 404001\n}",
           "type": "json"
         },
         {
-          "title": "Bad request-Response:",
-          "content": "{\n   \"title\": \"Invalid request data\",\n    \"status\": \"400\",\n    \"errors\": [\n     {\n      \"value\": \"@sadat.talksgmail.com\",\n      \"msg\": \"Must be a valid email\",\n      \"param\": \"username\",\n      \"location\": \"body\"\n     }\n   ],\n   \"code\": 400001\n}",
+          "title": "Bad request",
+          "content": "{\n   \"title\": \"Invalid query parameter\",\n    \"status\": \"400\",\n    \"errors\": [\n     {\n      \"value\": \"@sadat.talksgmail.com\",\n      \"msg\": \"Must be a valid email\",\n      \"param\": \"username\",\n      \"location\": \"query\"\n     }\n   ],\n   \"code\": 400002\n}",
           "type": "json"
         }
       ]

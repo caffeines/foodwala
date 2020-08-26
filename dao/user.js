@@ -37,6 +37,22 @@ class User {
     }
   }
 
+  async updateUser(username, data) {
+    try {
+      const {
+        name, address, isVerified, password,
+      } = data;
+      await this.knex('User')
+        .update({
+          name, address, isVerified, password,
+        })
+        .where({ username });
+      return {};
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
   async removeAll() {
     await this.knex('User').del();
   }
