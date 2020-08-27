@@ -30,7 +30,7 @@ class User {
   async findUserByUsername(username) {
     try {
       const [user] = await this.knex('User')
-        .select([...safeFields, 'verificationCode', 'verificationCodeGeneratedAt'])
+        .select([...safeFields, 'verificationCode', 'verificationCodeGeneratedAt', 'password'])
         .where({ username });
       return user;
     } catch (err) {

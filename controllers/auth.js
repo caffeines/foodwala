@@ -69,8 +69,6 @@ const auth = {
       if (user) {
         if (!user.isVerified) {
           const verificationCode = shortUUID.generate();
-          console.log(verificationCode);
-
           await User.updateUser(username, {
             verificationCode,
             verificationCodeGeneratedAt: new Date(),
@@ -214,10 +212,15 @@ const auth = {
    *       "value": "@sadat.talksgmail.com",
    *       "msg": "Must be a valid email",
    *       "param": "username",
-   *       "location": "query"
+   *       "location": "body"
    *      }
    *    ],
    *    "code": 400002
+   * }
+   * @apiParamExample {json} Request-Example:
+   * {
+   *    "username": "sadat.talks@gmail.com",
+   *    "password": "sadat@642"
    * }
    * @apiSuccessExample {json} Bad request [not verified]
    * {
@@ -229,8 +232,37 @@ const auth = {
   login: async (req, res) => {
     try {
       const { username, password } = req.body;
-      const user = {};
+      const User = new UserImpl(knex);
+      const user = await User.findUserByUsername(username);
+      if (!user) {
+        res.notFound({
+          title: 'User not found',
+          code: errorCodes.USER_NOT_FOUND,
+        });
+        return;
+      }
+      if (!user.isVerified) {
+        const verificationCode = shortUUID.generate();
+        await User.updateUser(username, {
+          verificationCode,
+          verificationCodeGeneratedAt: new Date(),
+        });
+        taskEmitter(makeEmail({ ...user, verificationCode }, 'Verify your email'));
+        res.badRequest({
+          title: 'Verify your email',
+          code: errorCodes.USER_EMAIL_NOT_VERIFIED,
+        });
+        return;
+      }
+
       const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        res.unauthorized({
+          title: 'Incorrect password',
+          code: errorCodes.INCORRECT_PASSWORD,
+        });
+        return;
+      }
       res.ok({});
     } catch (err) {
       console.log(err);

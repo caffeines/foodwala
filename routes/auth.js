@@ -18,4 +18,10 @@ router.get(
   auth.verifyEmail,
 );
 
+router.post(
+  '/api/auth/login',
+  authValidator.loginVC,
+  authValidator.validatelogin,
+  auth.login,
+);
 exports.authRouter = router;

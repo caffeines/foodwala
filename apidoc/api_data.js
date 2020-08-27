@@ -23,7 +23,14 @@ define({ "api": [
             "description": "<p>Password of the User.</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n   \"username\": \"sadat.talks@gmail.com\",\n   \"password\": \"sadat@642\"\n}",
+          "type": "json"
+        }
+      ]
     },
     "success": {
       "examples": [
@@ -39,7 +46,7 @@ define({ "api": [
         },
         {
           "title": "Bad request",
-          "content": "{\n   \"title\": \"Invalid query parameter\",\n    \"status\": \"400\",\n    \"errors\": [\n     {\n      \"value\": \"@sadat.talksgmail.com\",\n      \"msg\": \"Must be a valid email\",\n      \"param\": \"username\",\n      \"location\": \"query\"\n     }\n   ],\n   \"code\": 400002\n}",
+          "content": "{\n   \"title\": \"Invalid query parameter\",\n    \"status\": \"400\",\n    \"errors\": [\n     {\n      \"value\": \"@sadat.talksgmail.com\",\n      \"msg\": \"Must be a valid email\",\n      \"param\": \"username\",\n      \"location\": \"body\"\n     }\n   ],\n   \"code\": 400002\n}",
           "type": "json"
         },
         {

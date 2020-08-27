@@ -51,9 +51,24 @@ const validateEmailVarification = (req, res, next) => {
   validate(req, res, next, 'Invalid query parameter', errorCode.EMAIL_VERIFY_INVALID_DATA);
 };
 
+const loginVC = [
+  check('username')
+    .isEmail()
+    .withMessage('Must be a valid email'),
+  check('password')
+    .isLength({ min: 6 })
+    .withMessage('Must be at least 6 chars long'),
+];
+
+const validatelogin = (req, res, next) => {
+  validate(req, res, next, 'Invalid login data', errorCode.INVALID_LOGIN_DATA);
+};
+
 module.exports = {
   validateRegister,
   validateEmailVarification,
+  validatelogin,
   emailVerifyVC,
   registerVC,
+  loginVC,
 };
