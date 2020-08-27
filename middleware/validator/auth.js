@@ -48,8 +48,6 @@ const emailVerifyVC = [
 ];
 
 const validateEmailVarification = (req, res, next) => {
-  console.log(req.body);
-
   validate(req, res, next, 'Invalid query parameter', errorCode.EMAIL_VERIFY_INVALID_DATA);
 };
 

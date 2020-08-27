@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+const shortUUID = require('short-uuid');
 const errorCodes = require('../constant/errorCode');
 const UserImpl = require('../dao/userImpl');
 const knex = require('../lib/knexhelper').getKnexInstance();
@@ -61,14 +63,19 @@ const auth = {
       const {
         username, password, name, address,
       } = req.body;
-      console.log(username);
-
       const User = new UserImpl(knex);
 
       const user = await User.findUserByUsername(username);
       if (user) {
         if (!user.isVerified) {
-          taskEmitter(makeEmail(user, 'Verify your email'));
+          const verificationCode = shortUUID.generate();
+          console.log(verificationCode);
+
+          await User.updateUser(username, {
+            verificationCode,
+            verificationCodeGeneratedAt: new Date(),
+          });
+          taskEmitter(makeEmail({ ...user, verificationCode }, 'Verify your email'));
           res.badRequest({
             title: 'Verify your email',
             code: errorCodes.USER_EMAIL_NOT_VERIFIED,
@@ -82,9 +89,9 @@ const auth = {
         });
         return;
       }
-
+      const hashPassword = await bcrypt.hash(password, serverConfig.saltRound);
       const createdUser = await User.createUser({
-        username, password, name, address,
+        username, password: hashPassword, name, address,
       });
       taskEmitter(makeEmail(createdUser, 'Verify your email'));
       res.ok({
@@ -142,28 +149,34 @@ const auth = {
     try {
       const { username, token } = req.query;
       const User = new UserImpl(knex);
-      const user = await User.findUserByUsername(username);
-      if (!user) {
+      const code = await User.verifyUser(username, token);
+      if (code === 'notFound') {
         res.notFound({
           title: 'User not found',
           code: errorCodes.USER_NOT_FOUND,
         });
         return;
       }
-      if (user.isVerified) {
+      if (code === 'alreadyVerified') {
         res.ok({
           title: 'Email already verified',
         });
         return;
       }
-      if (user.verificationCode !== token) {
+      if (code === 'doesNotMatch') {
         res.unauthorized({
-          title: 'Verification code not match',
+          title: 'Verification code does not match',
           code: errorCodes.VERIFICATION_CODE_NOT_MATCH,
         });
         return;
       }
-      await User.updateUser(username, { ...user, isVerified: true });
+      if (code === 'expired') {
+        res.badRequest({
+          title: 'Verification code expired',
+          code: errorCodes.VERIFICATION_CODE_EXPIRED,
+        });
+        return;
+      }
       res.ok({
         title: 'Email verification successful',
       });
@@ -215,6 +228,9 @@ const auth = {
    */
   login: async (req, res) => {
     try {
+      const { username, password } = req.body;
+      const user = {};
+      const passwordMatch = await bcrypt.compare(password, user.password);
       res.ok({});
     } catch (err) {
       console.log(err);
