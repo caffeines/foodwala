@@ -2,6 +2,22 @@ const errorCodes = require('../constant/errorCode');
 const UserImpl = require('../dao/userImpl');
 const knex = require('../lib/knexhelper').getKnexInstance();
 const serverConfig = require('../config/server');
+const taskEmitter = require('../queue/taskEmitter');
+
+const makeEmail = (user, subject) => {
+  const url = `${serverConfig.serverLink}/api/auth/verify-email?username=${user.username}&token=${user.verificationCode}`;
+  return {
+    body: `Hello ${user.name}<br>
+    Please verify your email by clicking this url
+    <a href="${url}">${url}</a><br><br>
+
+    Thanks,<br>
+    Sadat<br>
+    `,
+    to: user.username,
+    subject,
+  };
+};
 
 const auth = {
   /**
@@ -45,15 +61,14 @@ const auth = {
       const {
         username, password, name, address,
       } = req.body;
+      console.log(username);
 
       const User = new UserImpl(knex);
 
       const user = await User.findUserByUsername(username);
       if (user) {
         if (!user.isVerified) {
-          // TODO: Send email
-          const url = `${serverConfig.serverLink}/api/auth/verify-email?username=${username}&token=${user.verificationCode}`;
-          // console.log(url);
+          taskEmitter(makeEmail(user, 'Verify your email'));
           res.badRequest({
             title: 'Verify your email',
             code: errorCodes.USER_EMAIL_NOT_VERIFIED,
@@ -71,10 +86,7 @@ const auth = {
       const createdUser = await User.createUser({
         username, password, name, address,
       });
-      const url = `${serverConfig.serverLink}/api/auth/verify-email?username=${username}&token=${createdUser.verificationCode}`;
-      // console.log(url);
-
-      // TODO: Send email
+      taskEmitter(makeEmail(createdUser, 'Verify your email'));
       res.ok({
         title: 'User registration successful',
         data: { message: 'Email sent' },

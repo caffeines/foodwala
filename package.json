@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": ". ./loadEnv ./dev.env && nodemon server.js",
+    "worker": ". ./loadEnv ./dev.env && node ./queue/worker.js",
     "test": ". ./loadEnv ./test.env && jest --watch --coverage --config ./jest.config.js",
     "migrate-dev": ". ./loadEnv ./dev.env && knex migrate:latest",
     "migrate-test": ". ./loadEnv ./test.env && knex migrate:latest",
@@ -28,6 +29,7 @@
   },
   "homepage": "https://github.com/caffeines/manush-ai-task#readme",
   "dependencies": {
+    "amqplib": "^0.6.0",
     "bcrypt": "^5.0.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
@@ -40,6 +42,7 @@
     "ioredis": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.5",
+    "mailgun-js": "^0.22.0",
     "morgan": "^1.10.0",
     "pg": "^8.3.2",
     "redis": "^3.0.2",

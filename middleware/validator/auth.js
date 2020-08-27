@@ -3,7 +3,6 @@ const errorCode = require('../../constant/errorCode');
 
 const registerVC = [
   check('username')
-    .normalizeEmail()
     .isEmail()
     .withMessage('Must be a valid email'),
   check('name')
@@ -40,7 +39,6 @@ const validateRegister = (req, res, next) => {
 
 const emailVerifyVC = [
   query('username')
-    .normalizeEmail()
     .isEmail()
     .withMessage('Must be a valid email'),
   query('token')
@@ -50,6 +48,8 @@ const emailVerifyVC = [
 ];
 
 const validateEmailVarification = (req, res, next) => {
+  console.log(req.body);
+
   validate(req, res, next, 'Invalid query parameter', errorCode.EMAIL_VERIFY_INVALID_DATA);
 };
 

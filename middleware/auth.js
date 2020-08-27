@@ -6,6 +6,7 @@ const { getClients } = require('../lib/redis');
 const { client } = getClients();
 
 // TODO: Refactor sessionImpl
+// TODO: Get token before create one
 
 const getSession = async (username) => {
   try {

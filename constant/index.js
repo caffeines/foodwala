@@ -4,4 +4,5 @@ module.exports = {
     ADMIN: 'admin',
   },
   session: 'SESSION',
+  EMAIL_QUEUE: 'emailQueue',
 };
