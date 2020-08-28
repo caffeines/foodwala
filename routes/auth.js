@@ -6,28 +6,28 @@ const authValidator = require('../middleware/validator/auth');
 const { isLoggedIn } = require('../middleware/auth');
 
 router.post(
-  '/api/auth/register',
+  '/register',
   authValidator.registerVC,
   authValidator.validateRegister,
   auth.register,
 );
 
 router.get(
-  '/api/auth/verify-email',
+  '/verify-email',
   authValidator.emailVerifyVC,
   authValidator.validateEmailVarification,
   auth.verifyEmail,
 );
 
 router.post(
-  '/api/auth/login',
+  '/login',
   authValidator.loginVC,
   authValidator.validatelogin,
   auth.login,
 );
 
 router.get(
-  '/api/auth/logout',
+  '/logout',
   isLoggedIn,
   auth.logout,
 );

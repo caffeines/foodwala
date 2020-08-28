@@ -5,19 +5,19 @@ const user = require('../controllers/user');
 const router = express.Router();
 
 router.get(
-  '/api/user/profile',
+  '/profile',
   isLoggedIn,
   user.getProfile,
 );
 
 router.patch(
-  '/api/user/profile',
+  '/profile',
   isLoggedIn,
   user.updateProfile,
 );
 
 router.delete(
-  '/api/user/profile',
+  '/profile',
   isLoggedIn,
   user.deleteProfile,
 );
