@@ -36,7 +36,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "{\n   \"title\": \"Login successful\",\n   \"status\": \"200\",\n}",
+          "content": "{\n   \"title\": \"Login Successful\",\n   \"status\": \"200\",\n   \"data\": {\n     \"username\": \"sadat.talks@gmail.com\",\n     \"name\": \"Abu Sadat Md. Sayem\",\n     \"isVerified\": true,\n     \"address\": \"Dhaka, Bangladesh\"\n   }\n}",
           "type": "json"
         },
         {
@@ -52,6 +52,30 @@ define({ "api": [
         {
           "title": "Bad request [not verified]",
           "content": "{\n   \"title\": \"Email already verified\",\n   \"status\": \"200\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "controllers/auth.js",
+    "groupTitle": "auth"
+  },
+  {
+    "type": "post",
+    "url": "/auth/logout",
+    "title": "Logout",
+    "name": "Logout",
+    "group": "auth",
+    "success": {
+      "examples": [
+        {
+          "title": "Success",
+          "content": "{\n   \"title\": \"Logout successful\",\n   \"status\": \"200\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Unauthorized",
+          "content": "{\n   \"title\": \"Not logged in\",\n   \"status\": \"401\",\n   \"code\": 401003\n}",
           "type": "json"
         }
       ]

@@ -195,8 +195,14 @@ const auth = {
    * @apiParam {String} password  Password of the User.
    * @apiSuccessExample {json} Success
    * {
-   *    "title": "Login successful",
+   *    "title": "Login Successful",
    *    "status": "200",
+   *    "data": {
+   *      "username": "sadat.talks@gmail.com",
+   *      "name": "Abu Sadat Md. Sayem",
+   *      "isVerified": true,
+   *      "address": "Dhaka, Bangladesh"
+   *    }
    * }
    * @apiSuccessExample {json} Not found
    * {
@@ -280,6 +286,22 @@ const auth = {
       });
     })(req, res);
   },
+  /**
+   * @api {post} /auth/logout Logout
+   * @apiName Logout
+   * @apiGroup auth
+   * @apiSuccessExample {json} Success
+   * {
+   *    "title": "Logout successful",
+   *    "status": "200"
+   * }
+   * @apiSuccessExample {json} Unauthorized
+   * {
+   *    "title": "Not logged in",
+   *    "status": "401",
+   *    "code": 401003
+   * }
+   */
   logout: (req, res) => {
     console.log('USER: ', req.user);
     req.logout();

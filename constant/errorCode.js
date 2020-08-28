@@ -16,5 +16,6 @@ const errorCodes = {
 
   USER_CREATE_SERVER_ERROR: 500001,
   SERVER_ERROR: 500000,
+  SESSION_ERROR: 500002,
 };
 module.exports = errorCodes;
