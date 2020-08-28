@@ -1,5 +1,6 @@
 exports.up = function (knex) {
   return knex.schema.createTable('User', (t) => {
+    t.string('id');
     t.string('username', 150);
     t.string('password');
     t.boolean('isVerified');
@@ -13,6 +14,8 @@ exports.up = function (knex) {
     t.string('longitude');
     t.string('latitude');
     t.primary(['username']);
+    t.index(['id']);
+    t.unique(['id']);
   });
 };
 

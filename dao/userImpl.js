@@ -1,7 +1,8 @@
 const shortUUID = require('short-uuid');
+const { v4: uuid } = require('uuid');
 const configServer = require('../config/server');
 
-const safeFields = ['username', 'isVerified', 'name', 'address'];
+const safeFields = ['id', 'username', 'isVerified', 'name', 'address'];
 
 class User {
   constructor(knex) {
@@ -13,6 +14,7 @@ class User {
       const now = new Date();
       const user = {
         ...data,
+        id: uuid(),
         isVerified: false,
         verificationCode: shortUUID.generate(),
         verificationCodeGeneratedAt: now,
