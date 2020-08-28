@@ -63,9 +63,26 @@ class User {
 
   async updateUser(username, data) {
     try {
+      const result = await this.knex.transaction(async (txn) => {
+        const [user] = await txn('User').where({ username }).forUpdate();
+        if (!user) return 'notFound';
+        if (!user.isVerified) return 'notVerified';
+        await txn('User')
+          .update(data)
+          .where({ username });
+        return 'success';
+      });
+      return result;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  async deleteUser(username) {
+    try {
       await this.knex('User')
-        .update(data)
-        .where({ username });
+        .where({ username })
+        .del();
       return {};
     } catch (err) {
       return Promise.reject(err);

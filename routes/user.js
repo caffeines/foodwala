@@ -9,4 +9,16 @@ router.get(
   isLoggedIn,
   user.getProfile,
 );
+
+router.patch(
+  '/api/user/profile',
+  isLoggedIn,
+  user.updateProfile,
+);
+
+router.delete(
+  '/api/user/profile',
+  isLoggedIn,
+  user.deleteProfile,
+);
 exports.userRouter = router;
