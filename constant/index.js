@@ -9,4 +9,8 @@ module.exports = {
     IN_STOCK: 'inStock',
     OUT_OF_STOCK: 'outOfStock',
   },
+  orderStatus: {
+    IN_QUEUE: 'inQueue',
+    DELEVERED: 'delevered',
+  },
 };

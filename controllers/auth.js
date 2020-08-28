@@ -287,7 +287,7 @@ const auth = {
     })(req, res);
   },
   /**
-   * @api {post} /auth/logout Logout
+   * @api {get} /auth/logout Logout
    * @apiName Logout
    * @apiGroup auth
    * @apiSuccessExample {json} Success
@@ -303,7 +303,6 @@ const auth = {
    * }
    */
   logout: (req, res) => {
-    console.log('USER: ', req.user);
     req.logout();
     res.ok({
       title: 'Logout successful',

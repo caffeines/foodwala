@@ -1,6 +1,7 @@
 const { userRouter } = require('./user');
 const { authRouter } = require('./auth');
 const { menuRouter } = require('./menu');
+const { orderRouter } = require('./order');
 
 const bindRoutes = (app) => {
   app.get('/', (req, res) => {
@@ -12,5 +13,6 @@ const bindRoutes = (app) => {
   app.use('/api/user', userRouter);
   app.use('/api/auth', authRouter);
   app.use('/api/menu', menuRouter);
+  app.use('/api/order', orderRouter);
 };
 module.exports = bindRoutes;
