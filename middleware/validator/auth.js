@@ -1,5 +1,6 @@
-const { check, query, validationResult } = require('express-validator');
+const { check, query } = require('express-validator');
 const errorCode = require('../../constant/errorCode');
+const validate = require('./index');
 
 const registerVC = [
   check('username')
@@ -19,19 +20,6 @@ const registerVC = [
     .isLength({ min: 6 })
     .withMessage('Must be at least 6 chars long'),
 ];
-
-const validate = (req, res, next, title, code) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.badRequest({
-      title,
-      error: errors.array(),
-      code,
-    });
-    return;
-  }
-  next();
-};
 
 const validateRegister = (req, res, next) => {
   validate(req, res, next, 'Invalid request data', errorCode.USER_CREATE_INVALID_DATA);

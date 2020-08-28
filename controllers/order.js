@@ -49,13 +49,13 @@ const order = {
    *     "status": "400",
    *     "errors": [
    *      {
-   *       "value": "@sadat.talksgmail.com",
-   *       "msg": "Must be a valid email",
-   *       "param": "username",
+   *       "value": "[]",
+   *       "msg": "Must be an array of minimum 1 menu item",
+   *       "param": "items",
    *       "location": "body"
    *      }
    *    ],
-   *    "code": 400001
+   *    "code": 400005
    * }
    *
    */
