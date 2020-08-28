@@ -1,3 +1,4 @@
+const passport = require('passport');
 const bcrypt = require('bcrypt');
 const shortUUID = require('short-uuid');
 const errorCodes = require('../constant/errorCode');
@@ -230,20 +231,29 @@ const auth = {
    *
    */
   login: async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      const User = new UserImpl(knex);
-      const user = await User.findUserByUsername(username);
-      if (!user) {
+    const User = new UserImpl(knex);
+    passport.authenticate('local', async (err, user, code) => {
+      if (err) {
+        res.serverError(err);
+        return;
+      }
+      if (code === 'notFound') {
         res.notFound({
-          title: 'User not found',
+          title: 'User not registerd',
           code: errorCodes.USER_NOT_FOUND,
+        });
+        return;
+      }
+      if (code === 'notMatch') {
+        res.unauthorized({
+          title: 'Incorrect password',
+          code: errorCodes.INCORRECT_PASSWORD,
         });
         return;
       }
       if (!user.isVerified) {
         const verificationCode = shortUUID.generate();
-        await User.updateUser(username, {
+        await User.updateUser(user.username, {
           verificationCode,
           verificationCodeGeneratedAt: new Date(),
         });
@@ -255,22 +265,27 @@ const auth = {
         return;
       }
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        res.unauthorized({
-          title: 'Incorrect password',
-          code: errorCodes.INCORRECT_PASSWORD,
+      req.logIn(user, (loginErr) => {
+        if (loginErr) {
+          res.serverError({
+            title: 'Login failed',
+            code: errorCodes.SERVER_ERROR,
+          });
+          return;
+        }
+        res.ok({
+          title: 'Login Successful',
+          data: user,
         });
-        return;
-      }
-      res.ok({});
-    } catch (err) {
-      console.log(err);
-      res.serverError({
-        title: 'Login failed',
-        code: errorCodes.SERVER_ERROR,
       });
-    }
+    })(req, res);
+  },
+  logout: (req, res) => {
+    console.log('USER: ', req.user);
+    req.logout();
+    res.ok({
+      title: 'Logout successful',
+    });
   },
 };
 module.exports = auth;
