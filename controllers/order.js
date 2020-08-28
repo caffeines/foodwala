@@ -1,6 +1,8 @@
 const knex = require('../lib/knexhelper').getKnexInstance();
 const errorCodes = require('../constant/errorCode');
-const orderImpl = require('../dao/orderImpl');
+const OrderImpl = require('../dao/orderImpl');
+const taskEmitter = require('../queue/taskEmitter');
+const render = require('../template/renderOrder');
 
 const order = {
   /**
@@ -61,12 +63,35 @@ const order = {
    */
   createOrder: async (req, res) => {
     try {
-      const orderRepo = new orderImpl(knex);
-      const ordr = await orderRepo.createOrder({ ...req.body, userId: req.user.id });
+      const orderRepo = new OrderImpl(knex);
+      let ordr = await orderRepo.createOrder({ ...req.body, userId: req.user.id });
+      ordr = await orderRepo.findOrder(ordr.id);
+      Object.freeze(ordr);
+      const body = render(ordr);
+      const email = {
+        body,
+        subject: 'Order Confirmation',
+        to: req.user.username,
+      };
+      taskEmitter(email);
       res.ok({
         title: 'Order created successfully',
         data: ordr,
       });
+    } catch (err) {
+      console.log(err);
+      res.serverError({
+        title: 'Something went wrong',
+        code: errorCodes.SERVER_ERROR,
+      });
+    }
+  },
+  getOrderById: async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      const orderRepo = new OrderImpl(knex);
+      const ordr = await orderRepo.findOrder(orderId);
+      res.ok({ data: ordr });
     } catch (err) {
       console.log(err);
       res.serverError({

@@ -1,0 +1,100 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Order</title>
+    <style type="text/css" rel="stylesheet" media="all">
+    .center {
+      margin-top: 50px;
+      text-align: center;
+    }
+    .summary {
+      margin-top: 50px;
+      display: flex;
+      justify-content: center;
+    }
+    .summary-body {
+      width: 600px;
+      background: #80808024;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 350px auto;
+    }
+    .summary-title {
+      font-size: larger;
+      font-weight: 700;
+    }
+    .summary-list {
+      font-size: large;
+      padding: 10px 0px;
+    }
+    .mt-30 {
+      margin-top: 20px;
+    }
+    .large {
+      font-size: x-large;
+      padding: 5px;
+    }
+    body {
+      font-family: serif;
+    }
+    #customers {
+      border-collapse: collapse;
+      width: 650px;
+    }
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+  
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+    #customers tr:hover {background-color: #ddd;}
+  
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: rgb(42, 82, 192);
+      color: white;
+    }
+    </style>
+  </head>
+  <body>
+    <h1 class="center">Your order is on its way</h1>
+    <div class="summary">
+      <div class="summary-body">
+        <div class="summary-list">
+          <span class="summary-title">
+            SUMMARY:
+          </span>
+          <div class="mt-30">Order ID: 584026b2-9471-487a-8332-58f47426c7e0</div>
+          <div>Order Date: Sat Aug 29 2020</div>
+          <div>Order Total: 540</div>
+        </div>
+        <div class="summary-list">
+          <span class="summary-title">
+            SHIPPING ADDRESS:
+          </span>
+          <div class="mt-30">A 4th floor, House 3/B রোড নং ১৬, Dhaka 1212</div>
+        </div>
+      </div>
+    </div>
+    <div class="summary">
+      <table id="customers">
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+        </tr>
+        <tr>
+      <td>dummy</td>
+      <td>540</td>
+      <td>1</td>
+    </tr>
+      </table>
+    </div>
+  </body>
+  </html>

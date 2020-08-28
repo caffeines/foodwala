@@ -19,7 +19,7 @@ const emitTask = (email) => {
 
       channel.assertQueue(queue, { durable: true });
       channel.sendToQueue(queue, Buffer.from(msg), { persistent: false });
-      console.log(' [x] Sent %s', msg);
+      console.log(' [x] Sent %s email', email.subject);
     });
     setTimeout(() => {
       con.close();

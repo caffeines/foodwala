@@ -1,9 +1,32 @@
+const shortUUID = require('short-uuid');
 const { v4: uuid } = require('uuid');
 const constants = require('../constant');
 
 class Order {
   constructor(knex) {
     this.knex = knex;
+  }
+
+  async findOrder(orderId) {
+    const order = await this.knex('Order as O')
+      .join('OrderItem as OI', 'OI.orderId', '=', 'O.id')
+      .join('Menu as M', 'M.id', '=', 'OI.menuId')
+      .where('O.id', '=', orderId);
+    const { deliveryAddress, createdAt } = order[0];
+    let total = 0;
+    const items = [];
+    order.forEach((o) => {
+      const { price, name, quantity } = o;
+      total += price;
+      items.push({ price, name, quantity });
+    });
+    return {
+      total,
+      deliveryAddress,
+      createdAt,
+      orderId,
+      items,
+    };
   }
 
   async createOrder(data) {
@@ -13,7 +36,7 @@ class Order {
         const order = {
           userId,
           deliveryAddress,
-          id: uuid(),
+          id: shortUUID.generate(),
           status: constants.orderStatus.IN_QUEUE,
           createdAt: new Date(),
         };
@@ -24,7 +47,7 @@ class Order {
           menuId: item.menuId,
           quantity: item.quantity,
         }));
-        await txn('OrederItem').insert(orderItems);
+        await txn('OrderItem').insert(orderItems);
         return { ...order, orderItems };
       });
       return ret;

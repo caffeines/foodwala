@@ -12,5 +12,10 @@ router.post(
   orderValidator.validateOrderCreate,
   order.createOrder,
 );
+router.get(
+  '/:orderId',
+  isLoggedIn,
+  order.getOrderById,
+);
 
 exports.orderRouter = router;

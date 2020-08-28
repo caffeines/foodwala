@@ -20,10 +20,10 @@ amqp.connect(`amqp://${username}:${password}@${host}:${port}/`, (err, con) => {
     channel.assertQueue(queue, { durable: true });
     channel.prefetch(1);
     console.log(' [*] Waiting for messages in %s. To exit press CTRL+C', queue);
-    channel.consume(queue, async (msg) => {
+    channel.consume(queue, (msg) => {
       const secs = msg.content.toString().split('.').length - 1;
-      console.log(' [x] Received %s', msg.content.toString());
       const email = JSON.parse(msg.content.toString());
+      console.log(' [x] Received %s email', email.subject);
       sendMail(email).catch((e) => console.log(e.message));
       setTimeout(() => {
         channel.ack(msg);
