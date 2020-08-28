@@ -66,7 +66,7 @@ const auth = {
       } = req.body;
       const User = new UserImpl(knex);
 
-      const user = await User.findUserByUsername(username);
+      const user = await User.findUserByUsername(username, true);
       if (user) {
         if (!user.isVerified) {
           const verificationCode = shortUUID.generate();

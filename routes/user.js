@@ -1,14 +1,12 @@
 const express = require('express');
-const errorCodes = require('../constant/errorCode');
+const { isLoggedIn } = require('../middleware/auth');
+const user = require('../controllers/user');
 
 const router = express.Router();
 
-router.get('/api/user', (req, res) => {
-  res.notFound({
-    title: 'User not found',
-    code: errorCodes.NOT_FOUND,
-    error: ['user not found'],
-  });
-});
-
+router.get(
+  '/api/user/profile',
+  isLoggedIn,
+  user.getProfile,
+);
 exports.userRouter = router;

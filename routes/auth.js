@@ -25,6 +25,7 @@ router.post(
   authValidator.validatelogin,
   auth.login,
 );
+
 router.get(
   '/api/auth/logout',
   isLoggedIn,

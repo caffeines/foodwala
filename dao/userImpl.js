@@ -27,10 +27,12 @@ class User {
     }
   }
 
-  async findUserByUsername(username) {
+  async findUserByUsername(username, safe) {
     try {
+      let selector = [...safeFields];
+      if (safe) selector = '*';
       const [user] = await this.knex('User')
-        .select([...safeFields, 'verificationCode', 'verificationCodeGeneratedAt', 'password'])
+        .select(selector)
         .where({ username });
       return user;
     } catch (err) {
