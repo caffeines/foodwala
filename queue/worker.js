@@ -23,7 +23,7 @@ amqp.connect(`amqp://${username}:${password}@${host}:${port}/`, (err, con) => {
     channel.consume(queue, (msg) => {
       const secs = msg.content.toString().split('.').length - 1;
       const email = JSON.parse(msg.content.toString());
-      console.log(' [x] Received %s email', email.subject);
+      console.log(' [x] Received %s', email.subject);
       sendMail(email).catch((e) => console.log(e.message));
       setTimeout(() => {
         channel.ack(msg);

@@ -43,50 +43,50 @@ services:
       - "5672:5672"
     networks:
       - app-network
-  web:
-    build:
-        context: .
-        dockerfile: Dockerfile
-    image: manush-ai-task
-    container_name: manush-ai-task
-    restart: always
-    env_file: prod.env
-    ports:
-        - 4123:4123
-    volumes:
-        - .:/home/manush-ai-task/app
-          - /home/manush-ai-task/app/node_modules
-    networks:
-        - app-network
-    command: node server.js
-    depends_on:
-        - worker
-    links:
-        - db
-        - rabbitmq
-        - redis
-  worker: 
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: manush-ai-task
-    container_name: manush-ai-task-worker
-    restart: always
-    env_file: prod.env
-    volumes:
-      - .:/home/manush-ai-task/app
-        - /home/manush-ai-task/app/node_modules
-    networks:
-        - app-network
-    command: node queue/worker.js
-    depends_on:
-        - db
-        - rabbitmq
-        - redis
-    links:
-        - db
-        - rabbitmq
-        - redis
+  # web:
+  #   build:
+  #       context: .
+  #       dockerfile: Dockerfile
+  #   image: manush-ai-task
+  #   container_name: manush-ai-task
+  #   restart: always
+  #   env_file: prod.env
+  #   ports:
+  #       - 4123:4123
+  #   volumes:
+  #       - .:/home/manush-ai-task/app
+  #         - /home/manush-ai-task/app/node_modules
+  #   networks:
+  #       - app-network
+  #   command: node server.js
+  #   depends_on:
+  #       - worker
+  #   links:
+  #       - db
+  #       - rabbitmq
+  #       - redis
+  # worker: 
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: manush-ai-task
+  #   container_name: manush-ai-task-worker
+  #   restart: always
+  #   env_file: prod.env
+  #   volumes:
+  #     - .:/home/manush-ai-task/app
+  #       - /home/manush-ai-task/app/node_modules
+  #   networks:
+  #       - app-network
+  #   command: node queue/worker.js
+  #   depends_on:
+  #       - db
+  #       - rabbitmq
+  #       - redis
+  #   links:
+  #       - db
+  #       - rabbitmq
+  #       - redis
 volumes:
   pgvol:
   redis_data:

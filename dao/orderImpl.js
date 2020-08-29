@@ -8,25 +8,16 @@ class Order {
   }
 
   async findOrder(orderId) {
-    const order = await this.knex('Order as O')
-      .join('OrderItem as OI', 'OI.orderId', '=', 'O.id')
-      .join('Menu as M', 'M.id', '=', 'OI.menuId')
-      .where('O.id', '=', orderId);
-    const { deliveryAddress, createdAt } = order[0];
-    let total = 0;
-    const items = [];
-    order.forEach((o) => {
-      const { price, name, quantity } = o;
-      total += price;
-      items.push({ price, name, quantity });
+    const ret = await this.knex.transaction(async (txn) => {
+      const [order] = await txn('Order').select('*').where({ id: orderId });
+      const items = await txn('OrderItem as OI')
+        .join('Menu as M', 'M.id', '=', 'OI.menuId')
+        .where('OI.orderId', '=', orderId);
+
+      const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      return { ...order, total, items };
     });
-    return {
-      total,
-      deliveryAddress,
-      createdAt,
-      orderId,
-      items,
-    };
+    return ret;
   }
 
   async createOrder(data) {
@@ -48,7 +39,13 @@ class Order {
           quantity: item.quantity,
         }));
         await txn('OrderItem').insert(orderItems);
-        return { ...order, orderItems };
+
+        const orderdItems = await txn('OrderItem as OI')
+          .join('Menu as M', 'M.id', '=', 'OI.menuId')
+          .where('OI.orderId', '=', order.id);
+
+        const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        return { ...order, total, items: orderdItems };
       });
       return ret;
     } catch (err) {
