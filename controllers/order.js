@@ -28,14 +28,18 @@ const order = {
    *    "data": {
    *      "userId": "9c9a0c29-b575-4bd2-98ac-6f5704501554",
    *      "deliveryAddress": "Bashundhara R/A, Dhaka",
-   *      "id": "584026b2-9471-487a-8332-58f47426c7e0",
+   *      "id": "vX2cqvsue9m1AzuKaswE1q",
    *      "status": "inQueue",
    *      "createdAt": "2020-08-28T17:08:20.604Z",
    *      "orderItems": [{
    *        "id": "ccef3b2a-bd64-48fd-9f4a-ac9b57818e64",
-   *        "orderId": "584026b2-9471-487a-8332-58f47426c7e0",
+   *        "orderId": "vX2cqvsue9m1AzuKaswE1q",
    *        "menuId": "d4c14dec-abe9-4a9a-8517-2efb7f17afcb",
-   *        "quantity": 2
+   *        "quantity": 2,
+   *        "name": "Dummy-1",
+   *        "status": "inStock",
+   *        "description": "Lorem Ipsum is simply...a galley of type and scrambled",
+   *        "price": 160,
    *      }]
    *    }
    * }
@@ -86,6 +90,40 @@ const order = {
       });
     }
   },
+  /**
+   * @api {get} /order/:orderId Order details by id
+   * @apiName Order details by id
+   * @apiGroup order
+   * @apiParam {String} orderId  Valid order id.
+   * @apiSuccessExample {json} Response-Success
+   * {
+   *    "status": "200",
+   *    "data": {
+   *      "userId": "9c9a0c29-b575-4bd2-98ac-6f5704501554",
+   *      "deliveryAddress": "Bashundhara R/A, Dhaka",
+   *      "id": "vX2cqvsue9m1AzuKaswE1q",
+   *      "status": "inQueue",
+   *      "createdAt": "2020-08-28T17:08:20.604Z",
+   *      "orderItems": [{
+   *        "id": "ccef3b2a-bd64-48fd-9f4a-ac9b57818e64",
+   *        "orderId": "vX2cqvsue9m1AzuKaswE1q",
+   *        "menuId": "d4c14dec-abe9-4a9a-8517-2efb7f17afcb",
+   *        "quantity": 2,
+   *        "name": "Dummy-1",
+   *        "status": "inStock",
+   *        "description": "Lorem Ipsum is simply...a galley of type and scrambled",
+   *        "price": 160,
+   *      }]
+   *    }
+   * }
+   * @apiSuccessExample {json} Unauthorized
+   * {
+   *    "title": "Not logged in",
+   *    "status": "401",
+   *    "code": 401003
+   * }
+   *
+   */
   getOrderById: async (req, res) => {
     try {
       const { orderId } = req.params;
