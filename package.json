@@ -8,8 +8,12 @@
     "worker": ". ./loadEnv ./dev.env && node ./queue/worker.js",
     "test": ". ./loadEnv ./test.env && jest --watch --coverage --config ./jest.config.js",
     "migrate-dev": ". ./loadEnv ./dev.env && knex migrate:latest",
+    "migrate-prod": "knex migrate:latest",
+    "migrate-prod-manual": ". ./loadEnv ./prod.env && knex migrate:latest",
     "migrate-test": ". ./loadEnv ./test.env && knex migrate:latest",
     "seed-dev": ". ./loadEnv ./dev.env && knex seed:run",
+    "seed-prod-manual": ". ./loadEnv ./prod.env && knex seed:run",
+    "seed-prod": "knex seed:run",
     "seed-make": ". ./loadEnv ./dev.env && knex seed:make 01-users",
     "api-doc": "apidoc -i controllers/ -o apidoc/"
   },

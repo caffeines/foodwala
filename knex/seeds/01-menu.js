@@ -18,7 +18,5 @@ const genMenu = () => {
 };
 
 exports.seed = function (knex) {
-  // Deletes ALL existing entries
-  return knex('Menu').del()
-    .then(() => knex('Menu').insert(genMenu()));
+  return knex('Menu').insert(genMenu());
 };
