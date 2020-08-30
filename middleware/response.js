@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
 
       const statusCode = responseTypes[response];
 
-      res.header('Server', 'Manush AI');
+      res.header('Server', 'foodwala');
       res.status(statusCode);
       const { title, code } = data;
       const resJSON = {

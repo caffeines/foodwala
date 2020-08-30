@@ -1,8 +1,9 @@
-# Manush AI Backend Task
+# Foodwala
 
 Live demo \
-API Documentation: [https://manushai-apidoc.surge.sh/](https://manushai-apidoc.surge.sh/)
-<!-- Server: []() -->
+Base URL: http://localhost:4123/api \
+API Documentation: [https://foodwala-apidoc.surge.sh/](https://foodwala-apidoc.surge.sh/) \
+Server: [http://http://52.90.30.101:4123/api](http://http://52.90.30.101:4123/api)
 
 ---
 
@@ -19,6 +20,8 @@ API Documentation: [https://manushai-apidoc.surge.sh/](https://manushai-apidoc.s
 ### Installation steps:
 
 #### Option 01: docker-compose
+> If you get any error regarding PostgreSQL. Please, set up a PostgreSQL database.
+
 + cp .env.example prod.env
 + fill the .env file in with proper credentials for docker environment
 + chmod +x setup.sh

@@ -1,7 +1,7 @@
 {
-  "name": "manush-ai-task",
+  "name": "foodwala",
   "version": "1.0.0",
-  "description": "Manush AI recruitment assignment",
+  "description": "foodwala",
   "main": "server.js",
   "scripts": {
     "dev": ". ./loadEnv ./dev.env && nodemon server.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/caffeines/manush-ai-task.git"
+    "url": "git+https://github.com/caffeines/foodwala.git"
   },
   "keywords": [
     "server",
@@ -29,9 +29,9 @@
   "author": "caffeines",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/caffeines/manush-ai-task/issues"
+    "url": "https://github.com/caffeines/foodwala/issues"
   },
-  "homepage": "https://github.com/caffeines/manush-ai-task#readme",
+  "homepage": "https://github.com/caffeines/foodwala#readme",
   "dependencies": {
     "amqplib": "^0.6.0",
     "bcrypt": "^5.0.0",
@@ -57,10 +57,10 @@
     "uuid": "^8.3.0"
   },
   "apidoc": {
-    "name": "Manush AI",
+    "name": "Foodwala",
     "version": "0.1.0",
     "defaultVersion": "0.1.0",
-    "description": "Manush AI backend task REST API documentation"
+    "description": "Foodwala backend REST API documentation"
   },
   "nodemonConfig": {
     "ignore": [

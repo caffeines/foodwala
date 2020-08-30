@@ -80,6 +80,19 @@ class User {
     }
   }
 
+  async updateVerificationCode(username, data) {
+    try {
+      await this.knex('User')
+        .update(data)
+        .where({ username });
+      console.log('Updated verificationCode: ', data);
+
+      return {};
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
   async deleteUser(username) {
     try {
       await this.knex('User')

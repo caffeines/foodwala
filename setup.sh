@@ -2,11 +2,11 @@
 echo "Starting setup server..."
 echo ""
 
-docker-compose up -d
+docker-compose up --build -d
 
-echo "Finding manush-ai-task docker container..."
+echo "Finding foodwala-task docker container..."
 
-containers=$(docker ps | grep manush-ai-task)
+containers=$(docker ps | grep foodwala)
 containerInfo=' ' read -r -a array <<<"$containers"
 containerID="${array[0]}"
 
