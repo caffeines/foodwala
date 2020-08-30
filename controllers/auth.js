@@ -64,13 +64,13 @@ const auth = {
       const {
         username, password, name, address,
       } = req.body;
-      const User = new UserImpl(knex);
+      const userRepo = new UserImpl(knex);
 
-      const user = await User.findUserByUsername(username, true);
+      const user = await userRepo.findUserByUsername(username, true);
       if (user) {
         if (!user.isVerified) {
           const verificationCode = shortUUID.generate();
-          await User.updateUser(username, {
+          await userRepo.updateVerificationCode(username, {
             verificationCode,
             verificationCodeGeneratedAt: new Date(),
           });
@@ -89,7 +89,7 @@ const auth = {
         return;
       }
       const hashPassword = await bcrypt.hash(password, serverConfig.saltRound);
-      const createdUser = await User.createUser({
+      const createdUser = await userRepo.createUser({
         username, password: hashPassword, name, address,
       });
       taskEmitter(makeEmail(createdUser, 'Verify your email'));
@@ -147,8 +147,8 @@ const auth = {
   verifyEmail: async (req, res) => {
     try {
       const { username, token } = req.query;
-      const User = new UserImpl(knex);
-      const code = await User.verifyUser(username, token);
+      const userRepo = new UserImpl(knex);
+      const code = await userRepo.verifyUser(username, token);
       if (code === 'notFound') {
         res.notFound({
           title: 'User not found',
@@ -237,7 +237,7 @@ const auth = {
    *
    */
   login: async (req, res) => {
-    const User = new UserImpl(knex);
+    const userRepo = new UserImpl(knex);
     passport.authenticate('local', async (err, user, code) => {
       if (err) {
         res.serverError(err);
@@ -259,7 +259,7 @@ const auth = {
       }
       if (!user.isVerified) {
         const verificationCode = shortUUID.generate();
-        await User.updateUser(user.username, {
+        await userRepo.updateUser(user.username, {
           verificationCode,
           verificationCodeGeneratedAt: new Date(),
         });
