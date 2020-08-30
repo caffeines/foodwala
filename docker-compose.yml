@@ -1,22 +1,22 @@
 version: '3.1'
 
 services:
-  db:
-    env_file: 
-      - prod.env
-    image: postgres
-    container_name: manushaidb
-    ports:
-      - 5432:5432
-    restart: always
-    environment:
-      POSTGRES_DB: $${PG_DATABASE}
-      POSTGRES_PASSWORD: $${PG_PASSWORD}
-      POSTGRES_USER: $${PG_USER}
-    volumes:
-      - "pgvol:/var/lib/postgresql/data"
-    networks:
-      - app-network
+  # db:
+  #   env_file: 
+  #     - prod.env
+  #   image: postgres
+  #   container_name: manushaidb
+  #   ports:
+  #     - 5432:5432
+  #   restart: always
+  #   environment:
+  #     POSTGRES_DB: $${PG_DATABASE}
+  #     POSTGRES_PASSWORD: $${PG_PASSWORD}
+  #     POSTGRES_USER: $${PG_USER}
+  #   volumes:
+  #     - "pgvol:/var/lib/postgresql/data"
+  #   networks:
+  #     - app-network
   adminer:
     image: adminer
     container_name: adminerpg
@@ -44,10 +44,7 @@ services:
     networks:
       - app-network
   web:
-    build:
-        context: .
-        dockerfile: Dockerfile
-    image: manush-ai-task
+    image: caffeines/foodyo:0.1
     container_name: manush-ai-task
     restart: always
     env_file: prod.env
@@ -55,36 +52,30 @@ services:
         - 4123:4123
     volumes:
         - .:/home/manush-ai-task/app
-          - /home/manush-ai-task/app/node_modules
+        - /home/manush-ai-task/app/node_modules
     networks:
         - app-network
     command: node server.js
     depends_on:
         - worker
     links:
-        - db
         - rabbitmq
         - redis
   worker: 
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: manush-ai-task
+    image: caffeines/foodyo:0.1
     container_name: manush-ai-task-worker
     restart: always
     env_file: prod.env
     volumes:
       - .:/home/manush-ai-task/app
-        - /home/manush-ai-task/app/node_modules
+      - /home/manush-ai-task/app/node_modules
     networks:
         - app-network
     command: node queue/worker.js
     depends_on:
-        - db
         - rabbitmq
         - redis
     links:
-        - db
         - rabbitmq
         - redis
 volumes:

@@ -2,7 +2,7 @@
 echo "Starting setup server..."
 echo ""
 
-docker-compose up --build -d
+docker-compose up -d
 
 echo "Finding manush-ai-task docker container..."
 
