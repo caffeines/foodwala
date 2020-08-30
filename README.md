@@ -1,8 +1,8 @@
 # Manush AI Backend Task
 
 Live demo \
-API Documentation: [https://manushai-apidoc.surge.sh/](https://manushai-apidoc.surge.sh/)
-<!-- Server: []() -->
+API Documentation: [https://manushai-apidoc.surge.sh/](https://manushai-apidoc.surge.sh/) \
+Server: [http://34.227.90.204:4123/api](http://34.227.90.204:4123/api)
 
 ---
 
