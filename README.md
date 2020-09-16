@@ -3,7 +3,7 @@
 Live demo \
 Base URL: http://localhost:4123/api \
 API Documentation: [https://foodwala-apidoc.surge.sh/](https://foodwala-apidoc.surge.sh/) \
-Server: [http://http://52.90.30.101:4123/api](http://http://52.90.30.101:4123/api)
+Server: [http://52.90.30.101:4123/api](http://52.90.30.101:4123/api)
 
 ---
 
